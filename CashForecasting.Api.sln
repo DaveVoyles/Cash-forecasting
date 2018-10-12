@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashForecasting.Api", "CashForecasting.Api\CashForecasting.Api.csproj", "{D72118A4-5397-4C7B-ADD5-747191B5EAEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D72118A4-5397-4C7B-ADD5-747191B5EAEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D72118A4-5397-4C7B-ADD5-747191B5EAEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D72118A4-5397-4C7B-ADD5-747191B5EAEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D72118A4-5397-4C7B-ADD5-747191B5EAEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A87D1E2-D27C-4883-BC91-CD787A5D791F}
+	EndGlobalSection
+EndGlobal

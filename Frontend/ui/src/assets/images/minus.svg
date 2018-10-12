@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="13" viewBox="0 0 14 13">
+    <defs>
+        <rect id="a" width="1.5" height="13" x="6" y="-5" rx=".75"/>
+    </defs>
+    <use fill="#296AAC" fill-rule="evenodd" transform="matrix(0 1 1 0 5.25 -.25)" xlink:href="#a"/>
+</svg>

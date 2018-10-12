@@ -1,0 +1,6 @@
+<button *ngIf="!authenticated" mat-button (click)="login()">Login</button>
+
+<button *ngIf="authenticated" mat-button [matMenuTriggerFor]="userMenu">{{name}}</button>
+<mat-menu #userMenu="matMenu">
+	<button mat-menu-item (click)="logout()">Logout</button>
+</mat-menu>

@@ -1,0 +1,8 @@
+<form [formGroup]="formDoc" (ngSubmit)="onSubmit(formDoc)" novalidate>
+	<mat-form-field>
+		<ngx-mat-file-input formControlName="multiplefile" placeholder="Forecast files" multiple></ngx-mat-file-input>
+		<mat-icon matSuffix>folder</mat-icon>
+	</mat-form-field>
+
+	<button mat-raised-button color="primary" type="submit">Upload</button>
+</form>

@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=pncteststorage;AccountKey=qhN4fmmK6jOTNDQhm64/LPm+sIwfCFawaMj93skBtuaKsSnmyYkvnXvYdUc10jMzTjJ0ORlZX0rykBAq6GSwBw==;EndpointSuffix=core.windows.net",
+    "AzureWebJobsDashboard": "",
+    "blobconnection": "DefaultEndpointsProtocol=https;AccountName=pncteststorage;AccountKey=qhN4fmmK6jOTNDQhm64/LPm+sIwfCFawaMj93skBtuaKsSnmyYkvnXvYdUc10jMzTjJ0ORlZX0rykBAq6GSwBw==;EndpointSuffix=core.windows.net",
+    "blobBaseURI": "https://pncteststorage.blob.core.windows.net/",
+    "ModelEndpoint": "http://pncdsvm.eastus.cloudapp.azure.com:5000/forecast"
+  }
+}
