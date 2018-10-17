@@ -20,7 +20,7 @@ import { UnauthorizedComponent } from "./shared/components/unauthorized/unauthor
 import { HomeComponent } from "./shared/components/home/home.component";
 
 const routes: Routes = [
-	{ path: "", redirectTo: "/home", pathMatch: "full" },
+	{ path: "", redirectTo: "/files", pathMatch: "full" },
 	// { path: "unauthorized", component: UnauthorizedComponent },
 	{
 		path: "home",
