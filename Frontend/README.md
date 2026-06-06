@@ -1,38 +1,37 @@
-## About
-This web frontend allows users to upload a .CSV to blob storage which is then piped to a trained forecasting model and returns a forecast result.
+## Frontend Overview
 
-## Repo Structure
-1. ui folder = Angular6 front-end (http://localhost:4200)
-2. CashForecasting.Api = AspNetCore 2.1 API (http://localhost:5000)
+This frontend allows a user to upload CSV files that are sent to the backend API and then processed by the forecasting pipeline.
+
+## Projects
+
+1. `ui` = Angular 6 frontend (`http://localhost:4200`)
+2. `../CashForecasting.Api` = ASP.NET Core API (`http://localhost:5000`)
 
 ## Requirements
-* .NET Core 2.1 - (Installation instructions)[https://blogs.msdn.microsoft.com/benjaminperkins/2018/06/04/how-to-install-asp-net-core-2-1-for-development/]
-* Visual Studio 2017  15.7.3
-* [Angular CLI](https://cli.angular.io/)
+
+- Node.js + npm (compatible with Angular CLI 6)
+- Angular CLI
+- .NET SDK for the backend API
 
 ## Setup
-1. Create Azure Active Directory app
-2. Add reply URLs to Azure AD App:
-	- http://localhost:4200/home
-	- http://localhost:4200
-3. Add `Sign in and read user profile` delegated permissions of `Microsoft Graph` API
-4. Edit Azure AD App manifest `"oauth2AllowImplicitFlow": true,`
-5. Update the `environment.ts` and `environment.prod.ts` with Application Id of newly registered Azure AD app.
 
-## Running
-To run the API, you can either start use Visual Studio to run/debug API project or use appropriate `dotnet` commands.
+1. Configure Azure AD values in:
+   - `ui/src/environments/environment.ts`
+   - `ui/src/environments/environment.prod.ts`
+2. Confirm API base URLs and auth settings match your environment.
 
-To run the Angular6 app, from the root `ui` folder run: `npm install` and then `ng serve` 
+## Run
 
-## To Disable AAD
-Azure has been acting up while working on this project, so you can navigate to `app.module.ts` and comment the line `canActivate: [AdalGuard]` to prevent authentication. 
+```bash
+cd Frontend/ui
+npm install
+npm run start
+```
 
-Afterwards, you can directly navigate to `http://localhost:4200/files/upload` to upload files to blob storage.
+If needed for local debugging, you can temporarily bypass auth guards in `app.module.ts` and navigate directly to `/files/upload`.
 
-## Items to change for production
-- Connection String in `AzureBlobManager.cs` should stored outside in an environment file outside of the project
-- Container name in `FileController.cs`. EX:	*abm.ContainerName = 'myContainer'*
+## Production Checklist
 
-## Images
-
-
+- Move all secrets and connection strings out of source-controlled files.
+- Configure CORS and auth for deployed origins.
+- Use environment-specific API endpoints.

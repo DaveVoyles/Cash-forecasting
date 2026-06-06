@@ -660,3 +660,6 @@ ASALocalRun/
 
 # End of https://www.gitignore.io/api/macos,angular,windows,aspnetcore,visualstudio,visualstudiocode
 
+
+# Azure Functions local secrets
+/AzureFunctions-Final/local.settings.json

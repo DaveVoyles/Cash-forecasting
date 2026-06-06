@@ -1,79 +1,71 @@
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CashForecasting.Api.Controllers
 {
-	[Route("[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class FilesController : Controller
     {
-		private readonly AzureBlobManager _blobManager;
+        private const string UploadContainerName = "datauploaded";
+        private readonly AzureBlobManager _blobManager;
 
-		public FilesController(AzureBlobManager blobManager)
-		{
-			_blobManager = blobManager;
-		}
-		[HttpPost("upload"), DisableRequestSizeLimit]
-		public IActionResult Post()
-		{
-			var file = Request.Form.Files[0];
-			var fileName = Request.Form.Files[0].Name;
+        public FilesController(AzureBlobManager blobManager)
+        {
+            _blobManager = blobManager;
+        }
 
-			UploadBlob(fileName, file);
+        [HttpPost("upload"), DisableRequestSizeLimit]
+        public IActionResult Post()
+        {
+            if (Request?.Form?.Files == null || Request.Form.Files.Count == 0)
+            {
+                return BadRequest("No file provided.");
+            }
 
-			return Json("Upload Successful.");
-		}
+            var file = Request.Form.Files[0];
 
-		/// <summary>
-		/// Uploads data to blob as memory stream
-		/// </summary>
-		/// <param name="name">Name of the file from the POST request</param>
-		/// <param name="newName">Returned name with current date pre-pended</param>
-		/// <param name="abm">Reference to Azure Blob Manager</param>
-		private static void UploadToBlobViaMemStream(string name, string newName, AzureBlobManager abm, IFormFile file)
-		{
-			// Convert IFormFile to B64 string and upload to blob storage		
-			using (var ms = new MemoryStream())
-			{
-				file.CopyTo(ms);
-				var fileBytes = ms.ToArray();
-				string s      = Convert.ToBase64String(fileBytes);
-				abm.PutBlob(abm.ContainerName, newName, fileBytes);
-			}
-		}
+            if (file.Length == 0)
+            {
+                return BadRequest("Uploaded file is empty.");
+            }
 
+            UploadBlob(file.FileName, file);
+            return Ok("Upload successful.");
+        }
 
-		/// <summary>
-		/// Uploads content to blob storage
-		/// </summary>
-		/// <param name="name">Parsed filepath from URL in web request. Will be used to generate a name for the file stored in Blob.</param>
-		private void UploadBlob(string name, IFormFile file)
-		{
-			string newName = GenerateNameFromFile(name);
+        /// <summary>
+        /// Uploads data to blob as memory stream.
+        /// </summary>
+        private static void UploadToBlobViaMemStream(string blobName, AzureBlobManager blobManager, IFormFile file)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                file.CopyTo(memoryStream);
+                blobManager.PutBlob(blobManager.ContainerName, blobName, memoryStream.ToArray());
+            }
+        }
 
-			// Create blob storage client and assign the container to upload to
-			//AzureBlobManager abm = new AzureBlobManager();
-			//				 abm.ContainerName = "datauploaded";
-			_blobManager.ContainerName = "datauploaded";
-			//UploadToBlobViaMemStream(name, newName, abm, file);
-			UploadToBlobViaMemStream(name, newName, _blobManager, file);
-		}
+        /// <summary>
+        /// Uploads content to blob storage.
+        /// </summary>
+        private void UploadBlob(string sourceFileName, IFormFile file)
+        {
+            var blobName = GenerateNameFromFile(sourceFileName);
+            _blobManager.ContainerName = UploadContainerName;
+            UploadToBlobViaMemStream(blobName, _blobManager, file);
+        }
 
-		/// <summary>
-		///  Grab file name from file & append the date
-		/// </summary>
-		/// <param name="name">Name from the file POSTed</param>
-		private static string GenerateNameFromFile(string name)
-		{
-			// Get file name from the url
-			string fileName    = Path.GetFileName(name);
-			string currentTime = DateTime.Now.ToString("yy-M-dd-HH-mm-");
-			string newName     = currentTime + fileName;
-
-			return newName;
-		}
-
-	}
+        /// <summary>
+        /// Prepend timestamp to uploaded file name.
+        /// </summary>
+        private static string GenerateNameFromFile(string sourceFileName)
+        {
+            var fileName = Path.GetFileName(sourceFileName);
+            var currentTime = DateTime.UtcNow.ToString("yy-MM-dd-HH-mm-");
+            return currentTime + fileName;
+        }
+    }
 }
