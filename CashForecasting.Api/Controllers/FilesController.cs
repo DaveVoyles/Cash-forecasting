@@ -59,7 +59,7 @@ namespace CashForecasting.Api.Controllers
         }
 
         /// <summary>
-        /// Grab file name from file and append timestamp.
+        /// Prepend timestamp to uploaded file name.
         /// </summary>
         private static string GenerateNameFromFile(string sourceFileName)
         {
