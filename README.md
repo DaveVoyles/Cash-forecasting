@@ -1,34 +1,66 @@
-# Treasury Cash Flow Forecasting 
- Accurate cash forecasting is the lifeblood of any treasury department. All financial decisions, from near-term liquidity to strategic planning, are based
- on forecasts. However, treasurers continue to struggle creating timely and relevant forecast. 
+# Cash Forecasting Reference Solution
 
- While creating a model template and the infrastrcture required to support a time series analysis, we can provide a solid starting point for our financial partners
- to better utilize Azure services while serving their customers.
+This repository demonstrates an end-to-end cash-forecasting workflow across three layers:
 
+- **Frontend (Angular 6)** for file upload and basic UI flows
+- **ASP.NET Core API** for ingesting and storing uploaded files in Azure Blob Storage
+- **Azure Functions + Python model service** for validation, prediction, and result persistence
 
-## BUSINESS PROBLEM TO BE SOLVED
-More than 70 percent of treasury executives are involved in cash position reporting and forecasting – more than any other activity – and it takes up half of their time1.
+The goal is to show how a forecasting model can be operationalized in Azure using a practical, modular architecture.
 
-Long term (6+ months) is not nearly as difficult (usually within 4% accuracy) as a short term (1 day) forecast (nearly useless at this point). The key issues are that they cannot get data fast enough and members are making changes to the data too quickly.
+## Repository Structure
 
+- `/Frontend/ui` – Angular web client
+- `/CashForecasting.Api` – ASP.NET Core API for file upload and blob interactions
+- `/AzureFunctions-Final` – Blob-triggered Functions pipeline
+- `/Forecasting Pred Model` – Flask + scikit-learn prediction endpoint
 
-## OBJECTIVE: Build a reusable infrastructure for deploying machine learning models. 
-This will consist of two parts: walk then run. 
+## High-Level Flow
 
-The model may take weeks or months to perfect, and will be unique to each customer, therefore our time is best spent scaffolding the infrastructure, which can be reused regardless of the model. 
+1. User uploads a CSV from the frontend.
+2. API stores the file in `datauploaded` blob container.
+3. `FunctionValidate` moves validated input to `datavalidated`.
+4. `FunctionCallForecastModel` calls the Flask model endpoint.
+5. Prediction output is written to `dataresult`.
 
-### PART ONE
-This is useful for data scientists who aren’t familiar with Azure and simply want to adopt our tools to build their models.
+## Configuration
 
-Initially I propose a bare-bones model which makes use of Microsoft’s forecasting library and documenting precisely how it can be used. This allows for buy-in from data scientists, engineers, and business side of the customer, due to its simplicity.
+This repository uses **sample/local development settings** by default. Provide real values through environment variables or local untracked config during deployment.
 
-I have an example of it something similar here,  which includes a model created with Scikit-Learn, Flask for a web server, and Docker to containerize the environment. When I pitched this to PNC, all three of their teams instantly had light bulbs go off and were on the same page, which made me realize the value in this.
+Common values:
 
-### PART TWO
-When the customer is comfortable with the tools above, they can move to a more technical and in-depth solution, which makes use of additional Azure functionality.
+- `Values__ConnString` (API)
+- `blobconnection` (Functions)
+- `blobBaseURI` (Functions)
+- `ModelEndpoint` (Functions)
+- `AzureWebJobsStorage` (Functions)
 
-This includes: 
-ML model management, Azure Functions, Blob storage, and AAD.
+## Local Development
 
-This GitHub repository illustrates the complexity, but also the benefits of ML model management. Ignore the first half, which largely covers the soon-to-be-deprecated ML Studio. 
-The value is largely in the environment preparation steps, which walks users through scaffolding an ML model management account. 
+### API
+
+```bash
+cd /tmp/workspace/DaveVoyles/Cash-forecasting
+
+dotnet build CashForecasting.Api.sln
+```
+
+### Frontend
+
+```bash
+cd /tmp/workspace/DaveVoyles/Cash-forecasting/Frontend/ui
+npm install
+npm run start
+```
+
+### Azure Functions
+
+```bash
+cd /tmp/workspace/DaveVoyles/Cash-forecasting/AzureFunctions-Final
+dotnet build Functions.sln
+```
+
+## Notes
+
+- The codebase targets legacy framework versions (Angular 6, .NET Core 2.1, Azure Functions v1).
+- This is a reference architecture and may require modernization for production use.
