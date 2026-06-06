@@ -40,15 +40,14 @@ Common values:
 ### API
 
 ```bash
-cd /tmp/workspace/DaveVoyles/Cash-forecasting
-
-dotnet build CashForecasting.Api.sln
+cd CashForecasting.Api
+dotnet build
 ```
 
 ### Frontend
 
 ```bash
-cd /tmp/workspace/DaveVoyles/Cash-forecasting/Frontend/ui
+cd Frontend/ui
 npm install
 npm run start
 ```
@@ -56,7 +55,7 @@ npm run start
 ### Azure Functions
 
 ```bash
-cd /tmp/workspace/DaveVoyles/Cash-forecasting/AzureFunctions-Final
+cd AzureFunctions-Final
 dotnet build Functions.sln
 ```
 

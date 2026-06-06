@@ -64,7 +64,7 @@ namespace CashForecasting.Api.Controllers
         private static string GenerateNameFromFile(string sourceFileName)
         {
             var fileName = Path.GetFileName(sourceFileName);
-            var currentTime = DateTime.UtcNow.ToString("yy-M-dd-HH-mm-");
+            var currentTime = DateTime.UtcNow.ToString("yy-MM-dd-HH-mm-");
             return currentTime + fileName;
         }
     }

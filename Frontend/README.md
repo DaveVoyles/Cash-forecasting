@@ -23,7 +23,7 @@ This frontend allows a user to upload CSV files that are sent to the backend API
 ## Run
 
 ```bash
-cd /tmp/workspace/DaveVoyles/Cash-forecasting/Frontend/ui
+cd Frontend/ui
 npm install
 npm run start
 ```

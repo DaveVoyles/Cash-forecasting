@@ -9,9 +9,10 @@ This folder contains a lightweight Flask service that loads a trained model (`mo
 
 ## Local Docker Run
 
-From `/tmp/workspace/DaveVoyles/Cash-forecasting/Forecasting Pred Model`:
+From repo root:
 
 ```bash
+cd "Forecasting Pred Model"
 docker build -t cash-forecasting-model:local .
 docker run --name cash-forecasting-model -p 5000:5000 cash-forecasting-model:local
 ```
